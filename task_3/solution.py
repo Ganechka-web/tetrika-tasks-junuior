@@ -37,6 +37,10 @@ def appearance(intervals: dict[str, list[int]]) -> int:
 
     total_being_seconds = 0
 
+    # check if at least one interval is empty
+    if not all((intervals['lesson'], intervals['pupil'], intervals['tutor'])):
+        return total_being_seconds
+
     # merging and concating intervals
     pupil_intervals = concat_intervals_by_lesson(
         merge_overlapping_intervals(intervals['pupil']), 
@@ -95,7 +99,8 @@ tests = [
         },
         'answer': 3577
     },
-    {   'intervals': {
+    {   
+        'intervals': {
             'lesson': [1594692000, 1594695600],
             'pupil': [1594692033, 1594696347],
             'tutor': [1594692017, 1594692066, 1594692068, 1594696341]
@@ -105,6 +110,6 @@ tests = [
 ]
 
 if __name__ == '__main__':
-   for i, test in enumerate(tests):
-       test_answer = appearance(test['intervals'])
-       assert test_answer == test['answer'], f'Error on test case {i}, got {test_answer}, expected {test["answer"]}'
+    for i, test in enumerate(tests):
+        test_answer = appearance(test['intervals'])
+        assert test_answer == test['answer'], f'Error on test case {i}, got {test_answer}, expected {test["answer"]}'
