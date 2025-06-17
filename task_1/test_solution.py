@@ -1,7 +1,7 @@
 import pytest
 from contextlib import nullcontext as does_not_raise
 
-from task_1.solution import add, something
+from task_1.solution import add, something, something_with_kwargs
 
 
 @pytest.mark.parametrize(
@@ -30,3 +30,19 @@ def test_strict_add(a, b, res, expectation):
 def test_strict_something(a, b, c, res, expectation):
     with expectation:
         assert something(a, b, c) == res
+
+
+@pytest.mark.parametrize(
+    ['a', 'g', 'c', 'res', 'expectation'],
+    (
+        (1, None, {}, 1, does_not_raise()),
+        ('', None, dict(), 1, pytest.raises(TypeError)),
+        (1, 1, {}, 1, does_not_raise()),
+        (1, None, [1, 3], 1, pytest.raises(TypeError)),
+        (1, None, None, 1, pytest.raises(TypeError)),
+        (1, [1, 2], {1: 2}, 4, pytest.raises(TypeError))
+    )
+)
+def test_strict_something_with_kwargs(a, g, c, res, expectation):
+    with expectation:
+        assert something_with_kwargs(a, g, c) == res
