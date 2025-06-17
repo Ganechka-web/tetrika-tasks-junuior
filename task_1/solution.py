@@ -3,6 +3,7 @@ from functools import wraps
 
 
 def strict(func: Callable) -> Callable:
+    """Checks args and kwargs type annotations in decorated func"""
     @wraps(func)
     def wrapper(*args: Any, **kwargs: Any) -> int:
         # check args annotations
